@@ -2,6 +2,18 @@
     <div class="container py-md-5">
         <div class="row align-items-center">
           <div class="col-lg-7 py-3 py-md-5">
+
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
+            @if (session('failed'))
+            <div class="alert alert-danger">
+                {{ session('failed') }}
+            </div>
+            @endif
+
             <h1 class="display-3">Remember Writing?</h1>
             <p class="lead text-muted">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
           </div>

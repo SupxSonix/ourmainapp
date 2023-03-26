@@ -10,6 +10,20 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function logout(){
+        Auth::logout();
+        return redirect('/')->with('status', 'You are now logged out!');
+    }
+
+    public function showCorrectHomepage(){
+        if (Auth::check()) {
+            return view('homepage-feed');
+        } else {
+            return view('homepage');
+        }
+        
+    }
+
     public function login(Request $request) {
         $incomingFields = $request->validate([
             'loginusername' => 'required',
@@ -18,9 +32,9 @@ class UserController extends Controller
 
         if (Auth::attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) {
             $request->session()->regenerate();
-            return 'Congrats!!!';
+            return redirect('/')->with('status', 'You are now logged in!');
         } else {
-            return 'Sorry!!!';
+            return redirect('/')->with('failed', 'Invalid log in');
         }
     }
 
@@ -32,7 +46,8 @@ class UserController extends Controller
         ]);
 
         // $incomingFields ['password'] = bcrypt('password');
-        User::create($incomingFields);
-        return 'Hello from register function';
+        $user = User::create($incomingFields);
+        Auth::login($user);
+        return redirect('/')->with('success','Youre now registered');
     }
 }
