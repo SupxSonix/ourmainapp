@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function viewSinglePost(Post $post){
+        //return $post->title;
+        return view('single-post', ['post'=> $post]);
+    }
+
     public function showCreateForm(){
         return view('create-post');
     }
